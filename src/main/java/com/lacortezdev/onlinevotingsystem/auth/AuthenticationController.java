@@ -1,0 +1,90 @@
+package com.lacortezdev.onlinevotingsystem.auth;
+
+import com.lacortezdev.onlinevotingsystem.security.UserRole;
+import com.lacortezdev.onlinevotingsystem.user.User;
+import com.lacortezdev.onlinevotingsystem.user.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.http.HttpResponse;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("auth")
+public class AuthenticationController {
+
+    private UserService userService;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AuthenticationController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(
+            @RequestParam Long id,
+            @RequestParam String password,
+            HttpServletResponse response) {
+        User user = userService.loadUserByUsername(id.toString());
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        boolean isPasswordMatched = passwordEncoder.matches(password, user.getPassword());
+
+        if (!isPasswordMatched) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @PostMapping("signup")
+    public ResponseEntity<?> signup(
+            @RequestBody UserRequestBody userRequestBody,
+            HttpServletResponse response
+    ) {
+        String encodedPassword = passwordEncoder.encode(userRequestBody.password);
+
+       User newUser = User.builder()
+               .firstName(userRequestBody.firstName())
+               .middleName(userRequestBody.middleName())
+               .lastName(userRequestBody.lastName())
+               .password(encodedPassword)
+               .roles(UserRole.ADMIN)
+               .salt("")
+               .isActive(true)
+               .build();
+
+       User user = userService.saveNewUser(newUser);
+
+       if (user == null) {
+           return ResponseEntity
+                   .status(HttpStatus.UNAUTHORIZED)
+                   .body("Invalid id or password");
+       }
+
+       Cookie cookie = new Cookie("Test", "Test");
+       response.addCookie(cookie);
+
+       return ResponseEntity
+               .status(HttpStatus.OK)
+               .body("Success");
+
+    }
+
+    record UserRequestBody(
+            String firstName,
+            String middleName,
+            String lastName,
+            String password
+    ) {}
+}

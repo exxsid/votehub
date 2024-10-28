@@ -1,5 +1,6 @@
 package com.lacortezdev.onlinevotingsystem.user;
 
+import com.lacortezdev.onlinevotingsystem.security.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -21,6 +23,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="user_id")
     private Long id;
 
     private String firstName;
@@ -29,12 +32,15 @@ public class User implements UserDetails {
     private String password;
     private String salt;
     private boolean isActive;
-    private Set<? extends GrantedAuthority> roles;
+    @Enumerated(value = EnumType.STRING)
+    private UserRole roles;
+
+
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return List.of();
     }
 
     @Override

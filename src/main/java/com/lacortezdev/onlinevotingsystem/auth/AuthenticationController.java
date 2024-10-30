@@ -60,7 +60,7 @@ public class AuthenticationController {
 
     @PostMapping("signup")
     public ResponseEntity<?> signup(
-            @RequestBody UserRequestBody userRequestBody
+            @RequestBody SignupUserRequestBody userRequestBody
     ) {
         String encodedPassword = passwordEncoder.encode(userRequestBody.password);
 
@@ -88,7 +88,7 @@ public class AuthenticationController {
 
     }
 
-    record UserRequestBody(
+    record SignupUserRequestBody(
             String firstName,
             String middleName,
             String lastName,

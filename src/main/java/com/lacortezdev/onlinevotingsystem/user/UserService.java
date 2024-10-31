@@ -31,4 +31,13 @@ public class UserService implements UserDetailsService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public void deleteUser(Long userId) {
+        try {
+            this.userRepository.delete(User.builder().id(userId).build());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

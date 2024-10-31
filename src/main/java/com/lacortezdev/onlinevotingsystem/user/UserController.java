@@ -67,4 +67,9 @@ public class UserController {
             throw new RuntimeException(e);
         }
     }
+
+    @DeleteMapping()
+    public void deleteUser(@RequestParam Long userId) {
+        this.userService.deleteUser(userId);
+    }
 }

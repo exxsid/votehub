@@ -2,6 +2,7 @@ package com.lacortezdev.onlinevotingsystem.config;
 
 import com.lacortezdev.onlinevotingsystem.jwt.JwtAuthenticationFilter;
 import com.lacortezdev.onlinevotingsystem.security.UserRole;
+import com.lacortezdev.onlinevotingsystem.user.UserActiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +24,18 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final UserActiveFilter userActiveFilter;
 
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService,
                           PasswordEncoder passwordEncoder,
-                          JwtAuthenticationFilter jwtAuthenticationFilter
+                          JwtAuthenticationFilter jwtAuthenticationFilter,
+                          UserActiveFilter userActiveFilter
     ) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userActiveFilter = userActiveFilter;
     }
 
     @Bean
@@ -44,7 +48,8 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(userActiveFilter, jwtAuthenticationFilter.getClass());
         return http.build();
     }
 

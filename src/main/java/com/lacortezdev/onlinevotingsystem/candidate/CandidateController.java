@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/candidates")
 public class CandidateController {
@@ -31,6 +33,16 @@ public class CandidateController {
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+    }
+
+    @PostMapping("add-bulk")
+    public ResponseEntity<List<CandidateResponseBody>> createNewCandidate(
+            @RequestBody List<CandidateRequestBody> requestBody
+    ) {
+        List<CandidateResponseBody> newCandidates = this.candidateService.createCandidateInBulk(requestBody);
+
+        return new ResponseEntity<>(newCandidates, HttpStatus.CREATED);
 
     }
 }

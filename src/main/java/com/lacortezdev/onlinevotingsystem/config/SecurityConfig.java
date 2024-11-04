@@ -48,7 +48,8 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/elections",
                                         "/elections/{electionId}",
-                                        "/candidates"
+                                        "/candidates",
+                                        "/candidates/add-bulk"
                                     )
                                     .hasRole(UserRole.ADMIN.name())
                                 .anyRequest()

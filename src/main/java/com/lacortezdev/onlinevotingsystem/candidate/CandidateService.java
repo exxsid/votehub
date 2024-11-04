@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 public class CandidateService {
 
@@ -32,5 +34,18 @@ public class CandidateService {
         }
 
         return this.mapper.candidateToCandidateResponseBody(newCandidate);
+    }
+
+    public List<CandidateResponseBody> createCandidateInBulk(List<CandidateRequestBody> requestBody) {
+        List<Candidate> candidates = requestBody.stream()
+                .map(this.mapper::candidateRequestBodyToCandidate)
+                .toList();
+
+        List<CandidateResponseBody> newCandidates = this.candidateRepository.saveAll(candidates).stream()
+                .map(this.mapper::candidateToCandidateResponseBody)
+                .toList();
+
+        return newCandidates;
+
     }
 }

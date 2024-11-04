@@ -37,4 +37,10 @@ public class ElectionController {
         return new ResponseEntity<>(responseBody, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("{electionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteElection(@PathVariable Long electionId) {
+        this.electionService.deleteElectionById(electionId);
+    }
+
 }

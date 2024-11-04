@@ -36,4 +36,8 @@ public class ElectionService {
         return elections;
     }
 
+    public void deleteElectionById(Long electionId) {
+        this.electionRepository.deleteById(electionId);
+    }
+
 }

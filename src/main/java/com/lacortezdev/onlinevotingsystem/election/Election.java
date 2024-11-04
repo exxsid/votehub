@@ -1,5 +1,7 @@
 package com.lacortezdev.onlinevotingsystem.election;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.lacortezdev.onlinevotingsystem.candidate.Candidate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,5 +29,9 @@ public class Election implements Serializable {
     private LocalDateTime endDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Candidate> candidates;
 
 }

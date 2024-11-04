@@ -45,7 +45,12 @@ public class SecurityConfig {
                         (auth) -> auth
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/users/**").hasRole(UserRole.ADMIN.name())
-                                .requestMatchers("/elections", "/elections/{electionId}").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(
+                                        "/elections",
+                                        "/elections/{electionId}",
+                                        "/candidates"
+                                    )
+                                    .hasRole(UserRole.ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
                 )

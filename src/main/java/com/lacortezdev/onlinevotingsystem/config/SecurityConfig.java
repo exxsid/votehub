@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -49,11 +50,15 @@ public class SecurityConfig {
                                         "/elections",
                                         "/elections/{electionId}",
                                         "/candidates",
-                                        "/candidates/add-bulk"
+                                        "/candidates/add-bulk",
+                                        "/candidates/{candidateId}"
                                     )
                                     .hasRole(UserRole.ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
+                )
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(userActiveFilter, jwtAuthenticationFilter.getClass());

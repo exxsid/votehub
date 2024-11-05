@@ -47,4 +47,8 @@ public class CandidateService {
 
         this.candidateRepository.save(candidate);
     }
+
+    public void deleteCandidate(Long candidateId) {
+        this.candidateRepository.delete(Candidate.builder().candidateId(candidateId).build());
+    }
 }

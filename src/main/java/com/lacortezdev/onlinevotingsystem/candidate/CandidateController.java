@@ -55,5 +55,17 @@ public class CandidateController {
 
     }
 
+    @DeleteMapping("{candidateId}")
+    public ResponseEntity<Void> deleteCandidate(
+            @PathVariable Long candidateId
+    ) {
+        try {
+            this.candidateService.deleteCandidate(candidateId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

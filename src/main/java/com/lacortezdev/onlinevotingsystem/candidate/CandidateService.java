@@ -41,4 +41,10 @@ public class CandidateService {
         return newCandidates;
 
     }
+
+    public void updateCandidate(CandidateDto dto) {
+        Candidate candidate = this.mapper.candidateDtoToCandidate(dto);
+
+        this.candidateRepository.save(candidate);
+    }
 }

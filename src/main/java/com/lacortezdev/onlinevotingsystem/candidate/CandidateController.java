@@ -3,10 +3,7 @@ package com.lacortezdev.onlinevotingsystem.candidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +38,20 @@ public class CandidateController {
         List<CandidateDto> newCandidates = this.candidateService.createCandidateInBulk(requestBody);
 
         return new ResponseEntity<>(newCandidates, HttpStatus.CREATED);
+
+    }
+
+    @PutMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> updateCandidate(
+            @RequestBody CandidateDto dto
+    ) {
+        try {
+            this.candidateService.updateCandidate(dto);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
     }
 

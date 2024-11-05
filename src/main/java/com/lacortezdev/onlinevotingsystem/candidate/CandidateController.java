@@ -24,11 +24,11 @@ public class CandidateController {
     }
 
     @PostMapping()
-    public ResponseEntity<CandidateResponseBody> createNewCandidate(
-            @RequestBody CandidateRequestBody requestBody
+    public ResponseEntity<CandidateDto> createNewCandidate(
+            @RequestBody CandidateDto requestBody
     ) {
         try {
-            CandidateResponseBody newCandidate = this.candidateService.createCandidate(requestBody);
+            CandidateDto newCandidate = this.candidateService.createCandidate(requestBody);
             return new ResponseEntity<>(newCandidate, HttpStatus.CREATED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -37,12 +37,14 @@ public class CandidateController {
     }
 
     @PostMapping("add-bulk")
-    public ResponseEntity<List<CandidateResponseBody>> createNewCandidate(
-            @RequestBody List<CandidateRequestBody> requestBody
+    public ResponseEntity<List<CandidateDto>> createNewCandidate(
+            @RequestBody List<CandidateDto> requestBody
     ) {
-        List<CandidateResponseBody> newCandidates = this.candidateService.createCandidateInBulk(requestBody);
+        List<CandidateDto> newCandidates = this.candidateService.createCandidateInBulk(requestBody);
 
         return new ResponseEntity<>(newCandidates, HttpStatus.CREATED);
 
     }
+
+
 }

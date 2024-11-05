@@ -1,14 +1,9 @@
 package com.lacortezdev.onlinevotingsystem.candidate;
 
-import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateMapper;
 import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateRequestBody;
 import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -24,8 +19,8 @@ public class CandidateService {
         this.mapper = mapper;
     }
 
-    public CandidateResponseBody createCandidate(CandidateRequestBody requestBody) throws Exception {
-        Candidate candidate = this.mapper.candidateRequestBodyToCandidate(requestBody);
+    public CandidateDto createCandidate(CandidateDto requestBody) throws Exception {
+        Candidate candidate = this.mapper.candidateDtoToCandidate(requestBody);
 
         Candidate newCandidate = this.candidateRepository.save(candidate);
 
@@ -33,16 +28,16 @@ public class CandidateService {
             throw new Exception();
         }
 
-        return this.mapper.candidateToCandidateResponseBody(newCandidate);
+        return this.mapper.candidateToCandidateDto(newCandidate);
     }
 
-    public List<CandidateResponseBody> createCandidateInBulk(List<CandidateRequestBody> requestBody) {
+    public List<CandidateDto> createCandidateInBulk(List<CandidateDto> requestBody) {
         List<Candidate> candidates = requestBody.stream()
-                .map(this.mapper::candidateRequestBodyToCandidate)
+                .map(this.mapper::candidateDtoToCandidate)
                 .toList();
 
-        List<CandidateResponseBody> newCandidates = this.candidateRepository.saveAll(candidates).stream()
-                .map(this.mapper::candidateToCandidateResponseBody)
+        List<CandidateDto> newCandidates = this.candidateRepository.saveAll(candidates).stream()
+                .map(this.mapper::candidateToCandidateDto)
                 .toList();
 
         return newCandidates;

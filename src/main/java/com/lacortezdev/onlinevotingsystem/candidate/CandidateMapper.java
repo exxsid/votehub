@@ -1,27 +1,27 @@
-package com.lacortezdev.onlinevotingsystem.candidate.dto;
+package com.lacortezdev.onlinevotingsystem.candidate;
 
-import com.lacortezdev.onlinevotingsystem.candidate.Candidate;
 import com.lacortezdev.onlinevotingsystem.election.Election;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CandidateMapper {
 
-    public Candidate candidateRequestBodyToCandidate(CandidateRequestBody requestBody) {
+    public Candidate candidateDtoToCandidate(CandidateDto c) {
         return Candidate.builder()
+                .candidateId(c.candidateId())
                 .election(
                         Election.builder()
-                                .electionId(requestBody.electionId())
+                                .electionId(c.electionId())
                                 .build()
                 )
-                .firstName(requestBody.firstName())
-                .lastName(requestBody.lastName())
-                .party(requestBody.party())
+                .firstName(c.firstName())
+                .lastName(c.lastName())
+                .party(c.party())
                 .build();
     }
 
-    public CandidateResponseBody candidateToCandidateResponseBody(Candidate c) {
-        return CandidateResponseBody.builder()
+    public CandidateDto candidateToCandidateDto(Candidate c) {
+        return CandidateDto.builder()
                 .candidateId(c.getCandidateId())
                 .electionId(c.getElection().getElectionId())
                 .firstName(c.getFirstName())

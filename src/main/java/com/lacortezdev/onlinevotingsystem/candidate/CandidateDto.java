@@ -1,9 +1,9 @@
-package com.lacortezdev.onlinevotingsystem.candidate.dto;
+package com.lacortezdev.onlinevotingsystem.candidate;
 
 import lombok.Builder;
 
 @Builder
-public record CandidateResponseBody (
+public record CandidateDto (
         Long candidateId,
         Long electionId,
         String firstName,

@@ -1,7 +1,5 @@
 package com.lacortezdev.onlinevotingsystem.candidate;
 
-import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateRequestBody;
-import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +28,7 @@ public class CandidateController {
         try {
             CandidateDto newCandidate = this.candidateService.createCandidate(requestBody);
             return new ResponseEntity<>(newCandidate, HttpStatus.CREATED);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

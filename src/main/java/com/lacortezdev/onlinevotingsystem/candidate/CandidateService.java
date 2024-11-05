@@ -1,7 +1,5 @@
 package com.lacortezdev.onlinevotingsystem.candidate;
 
-import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateRequestBody;
-import com.lacortezdev.onlinevotingsystem.candidate.dto.CandidateResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -36,6 +36,11 @@ public class ElectionService {
         return elections;
     }
 
+    public Election findElectionById(Long id) {
+        return this.electionRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public void deleteElectionById(Long electionId) {
         this.electionRepository.deleteById(electionId);
     }

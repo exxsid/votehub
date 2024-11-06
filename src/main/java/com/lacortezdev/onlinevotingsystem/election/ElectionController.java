@@ -25,6 +25,16 @@ public class ElectionController {
         return this.electionService.getElections();
     }
 
+    @GetMapping("{electionId}")
+    public ResponseEntity<Election> getElectionById(@PathVariable Long electionId) {
+        try {
+            Election election = this.electionService.findElectionById(electionId);
+            return new ResponseEntity<>(election, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping()
     public ResponseEntity<ElectionResponseBody> createElection(@RequestBody ElectionRequestBody requestBody) {
         Election election = this.electionService.saveElection(requestBody);

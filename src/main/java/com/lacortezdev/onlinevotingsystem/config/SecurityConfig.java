@@ -54,6 +54,10 @@ public class SecurityConfig {
                                         "/candidates/{candidateId}"
                                     )
                                     .hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(
+                                        "/ballots"
+                                    )
+                                    .hasRole(UserRole.VOTER.name())
                                 .anyRequest()
                                 .authenticated()
                 )
